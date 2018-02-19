@@ -1,3 +1,49 @@
 {% extends "layout.html" %}
 
 {% block content %}
+<div class="container">
+    <ul class="list-group list-group-flush">
+        {% for _id, res in restaurants.items() %}
+        <li class="list_group_item">
+            <h3><b> Name: </b> {{ res['name'] }} <b> Rating: </b> {{ res['rating'] }}</h3>
+            <div class="'col-md-8">
+                <div>
+                    {% for k,v in res.items() %}
+                    {% if "url" in k: %}
+                    <p><a href="{{ v }}" target="_blank">{{ k }}</a></p>
+                    {% else %}
+                    <p><b>{{ k }}: </b> {{ v }}</p>
+                    {% endif %}
+                    {% endfor %}
+                    <!--<a href="#" class="scan_reviews_{{ _id }}">-->
+                    <!--<button class='btn btn-default'>Scan reviews</button>-->
+                    <!--</a>-->
+                </div>
+            </div>
+            <div class="'col-md-4">
+                <div class="review">
+                    {% for keyword in keyword_dict[_id}) %}
+                    <p><b>{{ keyword }} </b></p>
+                    {% endfor %}
+                </div>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!--Scripts to implement jQuery AJAX for loading reviews asynchronously-->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+<!--<script type=text/javascript>-->
+<!--$(document).ready(function(){-->
+<!--$("a.scan_reviews").bind("click", function(){-->
+<!--$.getJson("/scan_reviews", {-->
+<!--res_id: $("a[class*='scan_reviews')-->
+<!--}, function(data)-->
+<!--$(".review").text(data.result);-->
+<!--});-->
+<!--return false;-->
+<!--});-->
+<!--</script>-->
+
+{% endblock%}
