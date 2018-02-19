@@ -19,6 +19,3 @@ class EndpointManager:
             'search': self.base_url + '/search'
         }
         return endpoints
-
-    def get_endpoint(self, name):
-        return self.endpoints[name]
