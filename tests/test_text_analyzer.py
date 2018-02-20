@@ -5,7 +5,7 @@ class TestTextAnalyzer(unittest.TestCase):
     @staticmethod
     def do_init():
         from text_analyzer.text_analyzer import TextAnalyzer
-        sample_corpus = ['foo bar foo bar bar.', ' bar foo bar. bar bar', 'ayy foo bar']
+        sample_corpus = ['foo bar foo bar bar', ' bar foo bar bar bar', 'ayy foo bar']
         t = TextAnalyzer(sample_corpus)
         return t
 
@@ -37,6 +37,13 @@ class TestTextAnalyzer(unittest.TestCase):
         t = self.do_init()
         words = t.extract_words(1, 'foo bar foo bar')
         self.assertEqual(len(words), 1)
+
+    def test_remove_stopwords(self):
+        from textblob import TextBlob
+        t = self.do_init()
+        string = 'foo this bar the bar'
+        blob = t.remove_stopwords(string)
+        self.assertNotIn('the', blob.words)
 
 if __name__ == "__main__":
     unittest.main()

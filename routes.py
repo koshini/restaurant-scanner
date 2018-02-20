@@ -6,7 +6,7 @@ from text_analyzer.text_analyzer import TextAnalyzer
 
 
 app = Flask(__name__)
-zomato = Zomato("5f7632921d92718b8c1cc580668bbd47")
+zomato = Zomato("YOUR_API_KEY")
 
 app.secret_key = 'development-key'
 
@@ -29,12 +29,9 @@ def result(form):
 
     # Query from Zomato API
     #########################
-    # zomato = Zomato("5f7632921d92718b8c1cc580668bbd47")
-    zomato = Zomato("29d2f8d3ea12fe6d7234f71240aecc38")
-
     locations = zomato.get_locations(location)
     id, type = data_preparation_helper.parse_locations(locations)
-    results = zomato.search(entity_id=id, entity_type=type, cuisines=308)
+    results = zomato.search(entity_id=id, entity_type=type, cuisines=308, count=5, sort='rating', order='desc')
     restaurants = data_preparation_helper.results_clean_up(results)
 
     # Apply tfidf algorithm to reviews
@@ -42,7 +39,7 @@ def result(form):
 
     # Get reviews from all types pf restaurants at the same location as corpus
     corpus = []
-    corpus_results = zomato.search(entity_id=id, entity_type=type, sort='rating', order='desc')
+    corpus_results = zomato.search(entity_id=id, entity_type=type)
     keyword_dict = {}
     for res in corpus_results['restaurants']:
         reviews = zomato.get_reviews(res_id=res['restaurant']['id'])
@@ -53,7 +50,7 @@ def result(form):
         reviews = zomato.get_reviews(_id)
         if len(reviews['user_reviews']) > 0:
             review_text = data_preparation_helper.get_review_text(reviews['user_reviews'])
-            keyword_dict[_id] = review_analyzer.extract_words(5,review_text)
+            keyword_dict[_id] = review_analyzer.extract_words(5, review_text)
 
     return render_template("result.html", restaurants=restaurants, keyword_dict=keyword_dict)
 

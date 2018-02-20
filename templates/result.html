@@ -4,29 +4,29 @@
 <div class="container">
     <ul class="list-group list-group-flush">
         {% for _id, res in restaurants.items() %}
-        <li class="list_group_item">
-            <h3><b> Name: </b> {{ res['name'] }} <b> Rating: </b> {{ res['rating'] }}</h3>
-            <div class="'col-md-8">
-                <div>
-                    {% for k,v in res.items() %}
-                    {% if "url" in k: %}
-                    <p><a href="{{ v }}" target="_blank">{{ k }}</a></p>
-                    {% else %}
-                    <p><b>{{ k }}: </b> {{ v }}</p>
-                    {% endif %}
-                    {% endfor %}
-                    <!--<a href="#" class="scan_reviews_{{ _id }}">-->
-                    <!--<button class='btn btn-default'>Scan reviews</button>-->
-                    <!--</a>-->
-                </div>
+        <li class="list_group_item col-md-8">
+            <div>
+                <h3><b> Name: </b> {{ res['name'] }} <b> Rating: </b> {{ res['rating'] }}</h3>
+                {% for k,v in res.items() %}
+                {% if "url" in k: %}
+                <p><a href="{{ v }}" target="_blank">{{ k }}</a></p>
+                {% else %}
+                <p><b>{{ k }}: </b> {{ v }}</p>
+                {% endif %}
+                {% endfor %}
+                <!--<a href="#" class="scan_reviews_{{ _id }}">-->
+                <!--<button class='btn btn-default'>Scan reviews</button>-->
+                <!--</a>-->
             </div>
-            <div class="'col-md-4">
-                <div class="review">
-                    {% for keyword in keyword_dict[_id}) %}
-                    <p><b>{{ keyword }} </b></p>
-                    {% endfor %}
-                </div>
+        </li>
+        <li class="list_group_item col-md-4">
+            <div class="review">
+                <h3>Top keywords in reviews</h3>
+                {% for keyword in keyword_dict[_id] %}
+                <p><b>{{ keyword }} </b></p>
+                {% endfor %}
             </div>
+
         </li>
         {% endfor %}
     </ul>
